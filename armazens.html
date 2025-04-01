@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="pt-ao">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Armazéns - TranspoLink</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="envios.css">
+    <link rel="stylesheet" href="armazens.css">
+    <link rel="stylesheet" href="animacoes.css">
+    <script src="scripts.js"></script>
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <div class="sidebar" id="sidebar">
+            <div class="logo">
+                <i class="fas fa-truck-moving" id="truck-icon"></i>
+                <span>TranspoLink</span>
+            </div>
+            <a href="dashboard.html" class="nav-item"><i class="fas fa-home"></i><span>Dashboard</span></a>
+            <a href="envios.html" class="nav-item"><i class="fas fa-shipping-fast"></i><span>Envios</span></a>
+            <a href="routes.html" class="nav-item"><i class="fas fa-map-marked"></i><span>Rotas</span></a>
+            <a href="armazens.html" class="nav-item active"><i class="fas fa-warehouse"></i><span>Armazéns</span></a>
+            <a href="relatorios.html" class="nav-item"><i class="fas fa-chart-line"></i><span>Relatórios</span></a>
+        </div>
+
+        <!-- Conteúdo Principal -->
+        <main class="main-content">
+            <!-- Cabeçalho -->
+            <div class="content-header">
+                <h1><i class="fas fa-warehouse"></i> Gerenciar Armazéns</h1>
+                <div class="header-tools">
+                    <div class="search-container">
+                        <input type="text" placeholder="Buscar armazém..." id="warehouseSearch">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <button class="btn btn-primary"><i class="fas fa-plus"></i> Novo Armazém</button>
+                </div>
+            </div>
+
+            <!-- Estatísticas -->
+            <div class="stats-container">
+                <div class="stat-card blue">
+                    <i class="fas fa-box-open"></i>
+                    <h3>Capacidade Total</h3>
+                    <p>85%</p>
+                </div>
+                <div class="stat-card green">
+                    <i class="fas fa-check-circle"></i>
+                    <h3>Operacionais</h3>
+                    <p>18</p>
+                </div>
+                <div class="stat-card orange">
+                    <i class="fas fa-tools"></i>
+                    <h3>Em Manutenção</h3>
+                    <p>3</p>
+                </div>
+            </div>
+
+            <!-- Tabela de Armazéns -->
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Localização</th>
+                        <th>Capacidade</th>
+                        <th>Status</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Armazém Central</td>
+                        <td>Luanda</td>
+                        <td>2,500 m²</td>
+                        <td><span class="status operational"></span>Operacional</td>
+                        <td>
+                            <button class="icon-btn"><i class="fas fa-edit"></i></button>
+                            <button class="icon-btn"><i class="fas fa-trash"></i></button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Depósito Norte</td>
+                        <td>Uíge</td>
+                        <td>1,200 m²</td>
+                        <td><span class="status maintenance"></span>Manutenção</td>
+                        <td>
+                            <button class="icon-btn"><i class="fas fa-info-circle"></i></button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Centro Logístico</td>
+                        <td>Benguela</td>
+                        <td>3,000 m²</td>
+                        <td><span class="status full"></span>Cheio</td>
+                        <td>
+                            <button class="icon-btn"><i class="fas fa-chart-bar"></i></button>
+                            <button class="icon-btn"><i class="fas fa-edit"></i></button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </main>
+    </div>
+
+    <script>
+        // Controle da Sidebar
+        document.getElementById('truck-icon').addEventListener('click', () => {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('collapsed');
+            document.documentElement.style.setProperty(
+                '--sidebar-width', 
+                sidebar.classList.contains('collapsed') ? '70px' : '250px'
+            );
+        });
+
+        // Filtro de Busca
+        document.getElementById('warehouseSearch').addEventListener('input', function(e) {
+            const term = e.target.value.toLowerCase();
+            document.querySelectorAll('.data-table tbody tr').forEach(row => {
+                row.style.display = row.textContent.toLowerCase().includes(term) ? '' : 'none';
+            });
+        });
+    </script>
+</body>
+</html>

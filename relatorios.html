@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="pt-ao">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Relatórios - TranspoLink</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="relatorio.css">
+    <link rel="stylesheet" href="envios.css">
+    
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <div class="sidebar" id="sidebar">
+            <div class="logo">
+                <i class="fas fa-truck-moving" id="truck-icon"></i>
+                <span>TranspoLink</span>
+            </div>
+            <a href="dashboard.html" class="nav-item"><i class="fas fa-home"></i><span>Dashboard</span></a>
+            <a href="envios.html" class="nav-item"><i class="fas fa-shipping-fast"></i><span>Envios</span></a>
+            <a href="routes.html" class="nav-item"><i class="fas fa-map-marked"></i><span>Rotas</span></a>
+            <a href="armazens.html" class="nav-item"><i class="fas fa-warehouse"></i><span>Armazéns</span></a>
+            <a href="relatorios.html" class="nav-item active"><i class="fas fa-chart-line"></i><span>Relatórios</span></a>
+        </div>
+
+        <!-- Conteúdo Principal -->
+        <main class="main-content">
+            <!-- Cabeçalho -->
+            <div class="content-header">
+                <h1><i class="fas fa-chart-pie"></i> Análise de Dados</h1>
+                <div class="header-tools">
+                    <div class="filter-container">
+                        <select id="periodFilter">
+                            <option>Últimos 7 dias</option>
+                            <option>Último mês</option>
+                            <option>Personalizado</option>
+                        </select>
+                    </div>
+                    <button class="btn btn-primary" id="exportButton"><i class="fas fa-file-export"></i> Exportar</button>
+                </div>
+            </div>
+
+            <!-- Cards de Métricas -->
+            <div class="stats-container">
+                <div class="metric-card purple">
+                    <i class="fas fa-boxes"></i>
+                    <h3>Envios Totais</h3>
+                    <p>1,240</p>
+                    <span class="metric-trend up">+12%</span>
+                </div>
+                <div class="metric-card blue">
+                    <i class="fas fa-clock"></i>
+                    <h3>Tempo Médio</h3>
+                    <p>2.8 dias</p>
+                    <span class="metric-trend down">-5%</span>
+                </div>
+                <div class="metric-card green">
+                    <i class="fas fa-wallet"></i>
+                    <h3>Custo Médio</h3>
+                    <p>15,000 AOA</p>
+                    <span class="metric-trend stable">±0%</span>
+                </div>
+            </div>
+
+            <!-- Gráficos (Placeholder) -->
+            <div class="charts-grid">
+                <div class="chart-card">
+                    <h4><i class="fas fa-chart-bar"></i> Envios por Região</h4>
+                    <div class="chart-placeholder"></div>
+                </div>
+                <div class="chart-card">
+                    <h4><i class="fas fa-chart-line"></i> Tendência Mensal</h4>
+                    <div class="chart-placeholder"></div>
+                </div>
+            </div>
+
+            <!-- Tabela de Dados -->
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Período</th>
+                        <th>Envios</th>
+                        <th>Receita</th>
+                        <th>Custo</th>
+                        <th>Eficiência</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Out/2023</td>
+                        <td>420</td>
+                        <td>6,300,000 AOA</td>
+                        <td>4,200,000 AOA</td>
+                        <td><span class="efficiency high">85%</span></td>
+                    </tr>
+                    <tr>
+                        <td>Set/2023</td>
+                        <td>380</td>
+                        <td>5,700,000 AOA</td>
+                        <td>4,100,000 AOA</td>
+                        <td><span class="efficiency medium">78%</span></td>
+                    </tr>
+                    <tr>
+                        <td>Ago/2023</td>
+                        <td>350</td>
+                        <td>5,250,000 AOA</td>
+                        <td>3,900,000 AOA</td>
+                        <td><span class="efficiency low">72%</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </main>
+    </div>
+
+    <script>
+        // Controle da Sidebar
+        document.getElementById('truck-icon').addEventListener('click', () => {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('collapsed');
+            document.documentElement.style.setProperty(
+                '--sidebar-width', 
+                sidebar.classList.contains('collapsed') ? '70px' : '250px'
+            );
+        });
+
+        // Exportar para CSV
+        document.getElementById('exportButton').addEventListener('click', () => {
+            const table = document.querySelector('.data-table');
+            const csvContent = [];
+            
+            // Processar linhas
+            table.querySelectorAll('tr').forEach(row => {
+                const rowData = [];
+                row.querySelectorAll('th, td').forEach(cell => {
+                    let text = cell.innerText;
+                    if (cell.querySelector('.efficiency')) {
+                        text = cell.querySelector('.efficiency').innerText;
+                    }
+                    rowData.push(`"${text.replace(/"/g, '""')}"`);
+                });
+                csvContent.push(rowData.join(';'));
+            });
+
+            // Criar e baixar arquivo
+            const csvString = csvContent.join('\n');
+            const blob = new Blob(["\uFEFF"+csvString], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = `relatorio_${new Date().toISOString().split('T')[0]}.csv`;
+            link.click();
+            URL.revokeObjectURL(link.href);
+        });
+
+        // Filtro de Período (exemplo)
+        document.getElementById('periodFilter').addEventListener('change', function(e) {
+            console.log('Período selecionado:', e.target.value);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="pt-ao">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Envios - TranspoLink</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="envios.css">
+    <link rel="stylesheet" href="animacoes.css">
+    <script src="scripts.js"></script>
+    <style>
+        /* Estilos específicos para envios */
+        .status-tag {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .status-preparing { background: #f1c40f20; border: 1px solid #f1c40f; color: #c0392b; }
+        .status-moving { background: #3498db20; border: 1px solid #3498db; color: #2980b9; }
+        .status-delivered { background: #2ecc7120; border: 1px solid #2ecc71; color: #27ae60; }
+        .status-alert { background: #e74c3c20; border: 1px solid #e74c3c; color: #c0392b; }
+
+        .priority-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-left: 8px;
+        }
+        .priority-high { background: #e74c3c; }
+        .priority-medium { background: #f1c40f; }
+        .priority-low { background: #2ecc71; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <div class="sidebar" id="sidebar">
+            <div class="logo">
+                <i class="fas fa-truck-moving" id="truck-icon"></i>
+                <span>TranspoLink</span>
+            </div>
+            <a href="dashboard.html" class="nav-item"><i class="fas fa-home"></i><span>Dashboard</span></a>
+            <a href="envios.html" class="nav-item active"><i class="fas fa-shipping-fast"></i><span>Envios</span></a>
+            <a href="routes.html" class="nav-item"><i class="fas fa-map-marked"></i><span>Rotas</span></a>
+            <a href="armazens.html" class="nav-item"><i class="fas fa-warehouse"></i><span>Armazéns</span></a>
+            <a href="relatorios.html" class="nav-item"><i class="fas fa-chart-line"></i><span>Relatórios</span></a>
+        </div>
+
+        <!-- Conteúdo Principal -->
+        <main class="main-content">
+            <!-- Cabeçalho -->
+            <div class="content-header">
+                <h1><i class="fas fa-boxes"></i> Controle de Envios</h1>
+                <div class="header-tools">
+                    <div class="search-container">
+                        <input type="text" placeholder="Buscar envio..." id="searchInput">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <button class="btn btn-primary"><i class="fas fa-plus"></i> Novo Envio</button>
+                </div>
+            </div>
+
+            <!-- Estatísticas -->
+            <div class="stats-container">
+                <div class="stat-card blue">
+                    <i class="fas fa-clock"></i>
+                    <h3>Pendentes</h3>
+                    <p>28</p>
+                </div>
+                <div class="stat-card green">
+                    <i class="fas fa-truck"></i>
+                    <h3>Em Trânsito</h3>
+                    <p>145</p>
+                </div>
+                <div class="stat-card orange">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <h3>Incidentes</h3>
+                    <p>6</p>
+                </div>
+            </div>
+
+            <!-- Tabela de Envios -->
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Código</th>
+                        <th>Origem ➔ Destino</th>
+                        <th>Status</th>
+                        <th>Última Atualização</th>
+                        <th>Prioridade</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Linha 1 -->
+                    <tr>
+                        <td>#ENV-2201</td>
+                        <td>Luanda → Lubango</td>
+                        <td>
+                            <span class="status-tag status-moving">
+                                <i class="fas fa-truck"></i>
+                                Em Trânsito
+                            </span>
+                        </td>
+                        <td>22/10/2023 10:15</td>
+                        <td>
+                            <span class="priority-dot priority-high"></span>
+                            Alta
+                        </td>
+                        <td>
+                            <button class="icon-btn"><i class="fas fa-map-marker-alt"></i></button>
+                            <button class="icon-btn"><i class="fas fa-edit"></i></button>
+                        </td>
+                    </tr>
+                    <!-- Linha 2 -->
+                    <tr>
+                        <td>#ENV-2202</td>
+                        <td>Benguela → Huambo</td>
+                        <td>
+                            <span class="status-tag status-delivered">
+                                <i class="fas fa-check-circle"></i>
+                                Entregue
+                            </span>
+                        </td>
+                        <td>21/10/2023 16:30</td>
+                        <td>
+                            <span class="priority-dot priority-low"></span>
+                            Baixa
+                        </td>
+                        <td>
+                            <button class="icon-btn"><i class="fas fa-file-invoice"></i></button>
+                        </td>
+                    </tr>
+                    <!-- Linha 3 -->
+                    <tr>
+                        <td>#ENV-2203</td>
+                        <td>Cabinda → Malanje</td>
+                        <td>
+                            <span class="status-tag status-alert">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                Atrasado
+                            </span>
+                        </td>
+                        <td>20/10/2023 08:45</td>
+                        <td>
+                            <span class="priority-dot priority-medium"></span>
+                            Média
+                        </td>
+                        <td>
+                            <button class="icon-btn"><i class="fas fa-bell"></i></button>
+                            <button class="icon-btn"><i class="fas fa-info"></i></button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </main>
+    </div>
+
+    <script>
+        // Controle da Sidebar
+        const sidebar = document.getElementById('sidebar');
+        document.getElementById('truck-icon').addEventListener('click', () => {
+            sidebar.classList.toggle('collapsed');
+            document.documentElement.style.setProperty(
+                '--sidebar-width', 
+                sidebar.classList.contains('collapsed') ? '70px' : '250px'
+            );
+        });
+
+        // Filtro de Busca em Tempo Real
+        document.getElementById('searchInput').addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            document.querySelectorAll('.data-table tbody tr').forEach(row => {
+                const rowText = row.textContent.toLowerCase();
+                row.style.display = rowText.includes(searchTerm) ? '' : 'none';
+            });
+        });
+    </script>
+</body>
+</html>

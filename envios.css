@@ -1,0 +1,228 @@
+/* Variáveis globais */
+:root {
+    --primary-color: #2c3e50;
+    --secondary-color: #e74c3c;
+    --bg-color: #f5f6fa;
+    --sidebar-width: 250px;
+    --border-radius: 8px;
+}
+
+/* Reset e Estilos Base */
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    background-color: var(--bg-color);
+}
+
+/* Layout Principal */
+.container {
+    display: grid;
+    grid-template-columns: var(--sidebar-width) 1fr;
+    min-height: 100vh;
+    transition: grid-template-columns 0.3s ease;
+}
+
+/* Sidebar */
+.sidebar {
+    background: var(--primary-color);
+    color: white;
+    padding: 20px 15px;
+    transition: all 0.3s ease;
+    overflow: hidden;
+}
+
+.sidebar.collapsed {
+    width: 70px;
+}
+
+.logo {
+    font-size: 24px;
+    margin-bottom: 40px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--secondary-color);
+    white-space: nowrap;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 15px;
+    margin: 5px 0;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    color: white;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.nav-item:hover, .nav-item.active {
+    background: var(--secondary-color);
+}
+
+/* Conteúdo Principal */
+.main-content {
+    padding: 30px;
+}
+
+.content-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.header-tools {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+/* Estatísticas */
+.stats-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.stat-card {
+    background: white;
+    padding: 20px;
+    border-radius: var(--border-radius);
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.stat-card i {
+    font-size: 28px;
+    margin-bottom: 10px;
+}
+
+/* Tabelas */
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.data-table th, .data-table td {
+    padding: 12px 15px;
+    text-align: left;
+}
+
+.data-table thead {
+    background: var(--primary-color);
+    color: white;
+}
+
+.data-table tbody tr:nth-child(even) {
+    background: #f8f9fa;
+}
+
+/* Componentes Específicos */
+.search-container {
+    position: relative;
+    flex-grow: 1;
+}
+
+.search-container input {
+    width: 100%;
+    padding: 10px 35px 10px 15px;
+    border: 1px solid #ddd;
+    border-radius: var(--border-radius);
+}
+
+.search-container i {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #666;
+}
+
+.btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-primary {
+    background: var(--secondary-color);
+    color: white;
+}
+
+.btn-primary:hover {
+    background: #c0392b;
+}
+
+.icon-btn {
+    background: none;
+    border: none;
+    padding: 6px;
+    margin: 0 4px;
+    cursor: pointer;
+    color: #666;
+}
+
+.icon-btn:hover {
+    color: var(--secondary-color);
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .container {
+        grid-template-columns: 1fr;
+    }
+
+    .sidebar {
+        position: fixed;
+        z-index: 100;
+        height: 100vh;
+    }
+
+    .main-content {
+        margin-left: 0;
+        padding: 20px;
+    }
+
+    .stats-container {
+        grid-template-columns: 1fr;
+    }
+    /* Ajustes finais da caixa de pesquisa */
+.search-container input {
+    padding: 8px 30px 8px 12px !important;
+    font-size: 0.9em;
+}
+
+.search-container i {
+    right: 8px !important;
+    font-size: 14px;
+}
+.container {
+    /* Adicione grid-gap para criar espaçamento */
+    grid-gap: 20px; /* Espaço entre sidebar e conteúdo */
+}
+
+.main-content {
+    /* Ajuste o padding para compensar o gap */
+    padding: 30px 30px 30px 0; /* Top Right Bottom Left */
+}
+
+/* Para quando o menu estiver recolhido */
+.sidebar.collapsed ~ .main-content {
+    padding-left: 10px; /* Reduz padding esquerdo */
+}
+
+/* Mantenha o conteúdo alinhado */
+.content-header {
+    padding-left: 15px; /* Alinhamento com tabelas */
+}
+}

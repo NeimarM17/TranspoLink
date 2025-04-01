@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="pt-ao">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro - TranspoLink</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 800px; margin: 20px auto; padding: 20px; }
+        .form-section { margin-bottom: 25px; padding: 15px; border: 1px solid #ddd; }
+        h2 { color: #2c3e50; border-bottom: 2px solid #e74c3c; }
+        label { display: block; margin: 10px 0; }
+        input, select, textarea { width: 95%; padding: 8px; margin: 5px 0; }
+        .required::after { content: "*"; color: red; margin-left: 3px; }
+        button { background: #e74c3c; color: white; padding: 10px 20px; border: none; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <h1>TranspoLink - Angola</h1>
+
+    <form action="#" method="post">
+        <!-- Dados da Empresa -->
+        <div class="form-section">
+            <h2>1. Dados da Empresa</h2>
+            
+            <label class="required">Nome da Empresa:</label>
+            <input type="text" name="empresa" required>
+
+            <label class="required">NIF (Número de Identificação Fiscal):</label>
+            <input type="text" name="nif" pattern="\d{9}" placeholder="Ex: 1234567" required>
+
+            <label>Endereço:</label>
+            <input type="text" name="endereco" placeholder="Ex: Rua da Logística, Nº 45">
+
+            <label class="required">Província:</label>
+            <select name="provincia" required>
+                <option value="">Selecione...</option>
+                <option>Luanda</option>
+                <option>Huíla</option>
+                <option>Benguela</option>
+                <option>Huambo</option>
+                <option>Cabinda</option>
+                <!-- Adicione outras províncias -->
+            </select>
+
+            <label class="required">Telefone:</label>
+            <input type="tel" name="telefone" pattern="\+244\d{9}" placeholder="+244 900 000 000" required>
+
+            <label class="required">E-mail Corporativo:</label>
+            <input type="email" name="email" required>
+        </div>
+
+        <!-- Dados do Responsável -->
+        <div class="form-section">
+            <h2>2. Dados do Responsável</h2>
+            
+            <label class="required">Nome Completo:</label>
+            <input type="text" name="responsavel" required>
+
+            <label class="required">Bilhete de Identidade:</label>
+            <input type="text" name="bi" placeholder="Nº do BI" required>
+
+            <label class="required">Cargo:</label>
+            <input type="text" name="cargo" required>
+        </div>
+
+        <!-- Dados Operacionais -->
+        <div class="form-section">
+            <h2>3. Dados Operacionais</h2>
+            
+            <label class="required">Tipo de Serviço:</label>
+            <div>
+                <label><input type="checkbox" name="servico[]" value="carga_geral"> Transporte de Carga Geral</label>
+                <label><input type="checkbox" name="servico[]" value="minerios"> Transporte de Minérios</label>
+                <label><input type="checkbox" name="servico[]" value="pereciveis"> Carga Perecível</label>
+            </div>
+
+            <label class="required">Cobertura Geográfica:</label>
+            <select name="cobertura" required>
+                <option value="">Selecione...</option>
+                <option>Urbana (Município)</option>
+                <option>Interprovincial</option>
+                <option>Nacional</option>
+                <option>Internacional</option>
+            </select>
+
+            <label>Número de Camiões:</label>
+            <input type="number" name="camiões" min="0">
+        </div>
+
+        <!-- Termos -->
+        <div class="form-section">
+            <h2>4. Termos e Condições</h2>
+            
+            <label class="required">
+                <input type="checkbox" name="termos" required>
+                Concordo com os Termos de Uso e a Lei de Proteção de Dados Pessoais de Angola
+            </label>
+
+            <label>
+                <input type="checkbox" name="newsletter">
+                Desejo receber atualizações sobre o sistema TMS
+            </label>
+        </div>
+
+        <button type="submit">Enviar Cadastro</button>
+    </form>
+
+    <p style="color: #666; margin-top: 20px;">
+        * Campos obrigatórios<br>
+        Dados protegidos conforme a Lei nº 22/11 sobre Proteção de Dados Pessoais
+    </p>
+</body>
+</html>

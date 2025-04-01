@@ -1,0 +1,245 @@
+:root {
+    --primary-color: #2c3e50;
+    --secondary-color: #e74c3c;
+    --bg-color: #f5f6fa;
+    --sidebar-width: 250px;
+    --border-radius: 8px;
+    --route-active: #27ae60;
+    --route-delayed: #e74c3c;
+    --route-pending: #f1c40f;
+    --map-border: #dcdde1;
+}
+
+/* Layout Principal */
+.container {
+    display: grid;
+    grid-template-columns: var(--sidebar-width) 1fr;
+    min-height: 100vh;
+    transition: grid-template-columns 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    gap: 0;
+}
+
+/* Sidebar */
+.sidebar {
+    background: var(--primary-color);
+    color: white;
+    padding: 20px 15px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar.collapsed {
+    width: 70px;
+    align-items: center;
+    padding: 20px 5px;
+}
+
+.sidebar.collapsed .logo span,
+.sidebar.collapsed .nav-item span {
+    opacity: 0;
+    width: 0;
+    transition: opacity 0.3s ease 0.2s;
+}
+
+.sidebar.collapsed .nav-item {
+    padding: 15px 0;
+    justify-content: center;
+    margin: 8px 0;
+}
+
+.logo {
+    font-size: 24px;
+    margin-bottom: 40px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--secondary-color);
+    white-space: nowrap;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 15px;
+    margin: 5px 0;
+    border-radius: var(--border-radius);
+    color: white;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.nav-item:hover, 
+.nav-item.active {
+    background: var(--secondary-color);
+}
+
+.fa-truck-moving {
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+/* Conteúdo Principal */
+.main-content {
+    padding: 30px 30px 30px 50px;
+    transition: padding-left 0.3s ease;
+}
+
+.sidebar.collapsed ~ .main-content {
+    padding-left: 30px;
+    margin-left: 20px;
+}
+
+.route-main-content {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+/* Cabeçalho */
+.route-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.route-title {
+    color: var(--primary-color);
+    font-size: 2.2em;
+    margin: 0;
+}
+
+/* Controles de Mapa */
+.map-controls {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.map-toggle-btn {
+    background: none;
+    border: 2px solid var(--primary-color);
+    color: var(--primary-color);
+    padding: 8px 20px;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.map-toggle-btn.active {
+    background: var(--primary-color);
+    color: white;
+}
+
+/* Container do Mapa */
+.route-map-container {
+    border: 2px solid var(--map-border);
+    border-radius: 15px;
+    overflow: hidden;
+    margin: 20px 0;
+    height: 500px;
+    background: #f8f9fa;
+}
+
+/* Tabela de Rotas */
+.route-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin: 25px 0;
+}
+
+.route-table th {
+    background: var(--primary-color);
+    color: white;
+    padding: 18px;
+    position: sticky;
+    top: 0;
+}
+
+.route-table td {
+    padding: 15px;
+    background: white;
+    border-bottom: 2px solid var(--bg-color);
+}
+
+.route-table tr:hover td {
+    background: #fcfcfc;
+}
+
+/* Indicadores de Status */
+.status-indicator {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 10px;
+}
+
+.status-active { background: var(--route-active); }
+.status-delayed { background: var(--route-delayed); }
+.status-pending { background: var(--route-pending); }
+
+/* Botões de Ação */
+.route-action-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.route-action-btn {
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: transform 0.2s ease;
+}
+
+.route-action-btn:hover {
+    transform: translateY(-2px);
+}
+
+.btn-edit { background: #3498db; color: white; }
+.btn-delete { background: #e74c3c; color: white; }
+.btn-details { background: #95a5a6; color: white; }
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .route-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+    
+    .route-map-container {
+        height: 300px;
+    }
+    
+    .route-table {
+        display: block;
+        overflow-x: auto;
+    }
+
+    .main-content {
+        padding: 20px;
+    }
+
+    .sidebar.collapsed ~ .main-content {
+        margin-left: 10px;
+        padding-left: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .route-action-buttons {
+        flex-direction: column;
+    }
+    
+    .route-action-btn {
+        justify-content: center;
+    }
+}

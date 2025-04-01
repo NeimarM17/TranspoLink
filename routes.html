@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="pt-ao">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rotas - TranspoLink</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="routes.css">
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCJGmXqkoTgi9ULe_pugC-m04yxNCvGZwY&callback=initMap" async defer></script>
+    <style>
+        /* Estilos base do dashboard */
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #e74c3c;
+            --bg-color: #f5f6fa;
+            --sidebar-width: 250px;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            background-color: var(--bg-color);
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: var(--sidebar-width) 1fr;
+            min-height: 100vh;
+            transition: grid-template-columns 0.3s ease;
+        }
+
+        .sidebar {
+            background: var(--primary-color);
+            color: white;
+            padding: 20px 15px;
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+        /* Estilos completos da Sidebar */
+        /* Estilos completos da Sidebar */
+.sidebar.collapsed {
+    width: 70px;
+}
+
+.sidebar.collapsed .logo span,
+.sidebar.collapsed .nav-item span {
+    opacity: 0;
+    width: 0;
+    transition: all 0.3s ease;
+}
+
+.sidebar.collapsed .logo {
+    padding-left: 10px;
+}
+
+.sidebar.collapsed .nav-item {
+    padding: 15px 10px;
+    justify-content: center;
+}
+
+.logo {
+    font-size: 24px;
+    margin-bottom: 40px;
+    color: var(--secondary-color);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    white-space: nowrap;
+}
+
+.logo span {
+    transition: opacity 0.3s ease;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 15px;
+    margin: 5px 0;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
+
+.nav-item:hover {
+    background: var(--secondary-color);
+}
+
+.nav-item.active {
+    background: var(--secondary-color);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.nav-item span {
+    transition: opacity 0.3s ease;
+}
+
+.fa-truck-moving {
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.fa-truck-moving:hover {
+    transform: rotate(-10deg) scale(1.1);
+}
+.nav-item {
+    /* Mantenha todos os estilos anteriores */
+    text-decoration: none;
+    color: white;
+}
+
+.nav-item:hover {
+    background: var(--secondary-color);
+    text-decoration: none;
+}
+
+.nav-item.active {
+    background: var(--secondary-color);
+    pointer-events: none; /* Desativa clique no item ativo */
+}
+        /* ... (outros estilos do sidebar mantidos) ... */
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <div class="sidebar" id="sidebar">
+            <div class="logo">
+                <i class="fas fa-truck-moving" id="truck-icon"></i>
+                <span>TranspoLink</span>
+            </div>
+            <a href="dashboard.html" class="nav-item"><i class="fas fa-home"></i><span>Dashboard</span></a>
+            <a href="envios.html" class="nav-item"><i class="fas fa-shipping-fast"></i><span>Envios</span></a>
+            <a href="routes.html" class="nav-item "><i class="fas fa-map-marked"></i><span>Rotas</span></a>
+            <a href="armazens.html" class="nav-item"><i class="fas fa-warehouse"></i><span>Armazéns</span></a>
+            <a href="relatorios.html" class="nav-item"><i class="fas fa-chart-line"></i><span>Relatórios</span></a>
+        </div>
+
+        <!-- Conteúdo Principal -->
+        <div class="route-main-content">
+            <div class="route-header">
+                <h1 class="route-title">Gerenciamento de Rotas</h1>
+                <div class="map-controls">
+                    <button class="map-toggle-btn active"><i class="fas fa-map"></i> Vista Mapa</button>
+                    <button class="map-toggle-btn"><i class="fas fa-list"></i> Vista Lista</button>
+                </div>
+            </div>
+
+            <!-- Estatísticas -->
+            <div class="stats-container">
+                <div class="stat-card">
+                    <h3><i class="fas fa-route"></i> Rotas Ativas</h3>
+                    <p>24</p>
+                </div>
+                <div class="stat-card">
+                    <h3><i class="fas fa-check-circle"></i> Concluídas</h3>
+                    <p>142</p>
+                </div>
+                <div class="stat-card">
+                    <h3><i class="fas fa-clock"></i> Em Espera</h3>
+                    <p>8</p>
+                </div>
+                <div class="stat-card">
+                    <h3><i class="fas fa-exclamation-triangle"></i> Atrasadas</h3>
+                    <p>3</p>
+                </div>
+            </div>
+
+            <!-- Mapa -->
+<div class="route-map-container">
+    <div id="map" style="height: 100%; border-radius: 13px;"></div>
+</div>
+           
+
+            <!-- Ações Rápidas -->
+            <div class="quick-actions">
+                <button class="action-btn"><i class="fas fa-plus"></i> Nova Rota</button>
+                <button class="action-btn"><i class="fas fa-filter"></i> Filtrar</button>
+                <button class="action-btn"><i class="fas fa-file-export"></i> Exportar</button>
+                <button class="action-btn"><i class="fas fa-sync-alt"></i> Atualizar</button>
+            </div>
+
+            <!-- Tabela de Rotas -->
+            <table class="route-table">
+                <thead>
+                    <tr>
+                        <th>Status</th>
+                        <th>Origem</th>
+                        <th>Destino</th>
+                        <th>Distância</th>
+                        <th>Veículo</th>
+                        <th>Previsão</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="status-indicator status-active"></span>Ativa</td>
+                        <td>Luanda</td>
+                        <td>Lubango</td>
+                        <td>780 km</td>
+                        <td>CAM-1234</td>
+                        <td>18/10/2023</td>
+                        <td>
+                            <div class="route-action-buttons">
+                                <button class="route-action-btn btn-edit"><i class="fas fa-edit"></i></button>
+                                <button class="route-action-btn btn-delete"><i class="fas fa-trash"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><span class="status-indicator status-delayed"></span>Atrasada</td>
+                        <td>Benguela</td>
+                        <td>Malanje</td>
+                        <td>450 km</td>
+                        <td>VAN-5678</td>
+                        <td>16/10/2023</td>
+                        <td>
+                            <div class="route-action-buttons">
+                                <button class="route-action-btn btn-details"><i class="fas fa-info-circle"></i></button>
+                                <button class="route-action-btn btn-edit"><i class="fas fa-edit"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><span class="status-indicator status-pending"></span>Pendente</td>
+                        <td>Cabinda</td>
+                        <td>Uíge</td>
+                        <td>320 km</td>
+                        <td>CAM-9012</td>
+                        <td>20/10/2023</td>
+                        <td>
+                            <div class="route-action-buttons">
+                                <button class="route-action-btn btn-details"><i class="fas fa-info-circle"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        // Controle da Sidebar
+        const sidebar = document.getElementById('sidebar');
+        const truckIcon = document.getElementById('truck-icon');
+        let isCollapsed = false;
+
+        truckIcon.addEventListener('click', () => {
+            isCollapsed = !isCollapsed;
+            sidebar.classList.toggle('collapsed');
+            truckIcon.style.transform = isCollapsed 
+                ? 'rotate(360deg) scale(0.8)' 
+                : 'rotate(0deg) scale(1)';
+            document.documentElement.style.setProperty(
+                '--sidebar-width', 
+                isCollapsed ? '70px' : '250px'
+            );
+        });
+
+        // Controle de Tabs do Mapa
+        document.querySelectorAll('.map-toggle-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.map-toggle-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+            });
+        });
+
+        // Destacar menu ativo
+        document.querySelectorAll('.nav-item').forEach(item => {
+            if (item.querySelector('span').textContent === 'Rotas') {
+                item.classList.add('active');
+            }
+        });
+      
+let map;
+const directionsService = new google.maps.DirectionsService();
+const directionsRenderer = new google.maps.DirectionsRenderer();
+
+function initMap() {
+    // Configuração inicial do mapa
+    map = new google.maps.Map(document.getElementById('map'), {
+        center: {lat: -8.839988, lng: 13.289437}, // Coordenadas de Luanda
+        zoom: 6,
+        mapTypeControl: true,
+        streetViewControl: false,
+        fullscreenControl: true,
+        styles: [
+            {
+                featureType: "poi",
+                elementType: "labels",
+                stylers: [{ visibility: "off" }]
+            }
+        ]
+    });
+
+    directionsRenderer.setMap(map);
+    
+    // Adicionar rotas de exemplo
+    addSampleRoutes();
+}
+
+function addSampleRoutes() {
+    const routes = [
+        {
+            origin: "Luanda, Angola",
+            destination: "Lubango, Angola",
+            color: "#27ae60"
+        },
+        {
+            origin: "Benguela, Angola",
+            destination: "Malanje, Angola",
+            color: "#e74c3c"
+        },
+        {
+            origin: "Cabinda, Angola",
+            destination: "Uíge, Angola",
+            color: "#f1c40f"
+        }
+    ];
+
+    routes.forEach(route => {
+        directionsService.route({
+            origin: route.origin,
+            destination: route.destination,
+            travelMode: google.maps.TravelMode.DRIVING
+        }, (response, status) => {
+            if (status === 'OK') {
+                directionsRenderer.setOptions({
+                    polylineOptions: {
+                        strokeColor: route.color,
+                        strokeOpacity: 0.7,
+                        strokeWeight: 4
+                    }
+                });
+                directionsRenderer.setDirections(response);
+            }
+        });
+    });
+}
+</script>
+</body>
+</html>

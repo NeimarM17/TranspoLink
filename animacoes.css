@@ -1,0 +1,47 @@
+/* Animação do Caminhão */
+@keyframes truck-move {
+    0% { transform: translateX(0) rotate(0deg); }
+    50% { transform: translateX(30px) rotate(-10deg); }
+    100% { transform: translateX(0) rotate(0deg); }
+}
+
+/* Estilos da Sidebar Animada */
+.sidebar {
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.fa-truck-moving {
+    transition: all 0.5s ease;
+    cursor: pointer;
+}
+
+/* Quando o menu está recolhido */
+.sidebar.collapsed .nav-item span {
+    opacity: 0;
+    width: 0;
+    transition: opacity 0.3s ease 0.2s;
+}
+
+/* Efeito de clique no caminhão */
+.truck-animate {
+    animation: truck-move 0.8s ease-in-out;
+}
+/* Ajustes para menu recolhido */
+.sidebar.collapsed {
+    width: 70px !important; /* Força largura fixa */
+}
+
+.sidebar.collapsed .logo span {
+    display: none; /* Esconde texto do logo */
+}
+
+/* Reduz tamanho da caixa de pesquisa */
+.search-container {
+    max-width: 180px; /* Tamanho menor */
+    transition: all 0.3s ease;
+}
+
+.sidebar.collapsed ~ .main-content .search-container {
+    max-width: 120px; /* Tamanho ainda menor quando menu fechado */
+    margin-left: 10px;
+}
